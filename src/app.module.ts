@@ -15,7 +15,7 @@ import { JwtModule } from '@nestjs/jwt';
       port: 3306,
       username: 'root',
       password: '',
-      database: '_parking',
+      database: '_parking_service',
       entities: [User],
       synchronize: true,
     }),
