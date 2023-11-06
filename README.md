@@ -35,7 +35,7 @@ This is the backend for the parking service. It's a powerful REST API that allow
 ## 📄 Database Model
 
 <div align="center">
-  <img src="./modelisation.svg" alt="Database Model" />
+  <img src="./model.png" alt="Database Model" />
 </div>
 
 ## 📁 Project Structure
