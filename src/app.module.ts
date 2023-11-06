@@ -12,14 +12,18 @@ import { ParkingSpace } from './parkingspace/entities/parkingspace.entity';
 import { Assignment } from './assignement/entities/assignement.entity';
 import { CarsModule } from './cars/cars.module';
 import { Car } from './cars/entities/car.entity';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
+      type: 'mysql', // Replace 'mysql' with the appropriate database type
+      host: process.env.DATABASE_HOST,
+      port: parseInt(process.env.DATABASE_PORT),
+      username: process.env.DATABASE_USER,
       password: '',
       database: '_parking_service',
       entities: [User, ParkingSpace, Assignment, Car],
@@ -30,8 +34,8 @@ import { Car } from './cars/entities/car.entity';
     PassportModule,
     SwaggerModule,
     JwtModule.register({
-      secret: 'secrete',
-      signOptions: { expiresIn: '1d' },
+      secret: process.env.JWT_SECRET,
+      signOptions: { expiresIn: process.env.JWT_EXPIRES_IN },
     }),
     ParkingspaceModule,
     AssignementModule,
