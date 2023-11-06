@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Logger, Module } from '@nestjs/common';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { JwtStrategy } from './guards/jwt.strategy';
@@ -10,7 +10,7 @@ import { GuestGuard } from './guards/guest.guard';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User]), JwtModule],
-  providers: [AuthService, JwtStrategy, RoleGuard, GuestGuard],
+  providers: [AuthService, JwtStrategy, RoleGuard, GuestGuard, Logger],
   controllers: [AuthController],
 })
 export class AuthModule {}

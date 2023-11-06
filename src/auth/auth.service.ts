@@ -16,6 +16,7 @@ export class AuthService {
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
     private jwtService: JwtService,
+    private logger: Logger,
   ) {}
 
   /**
@@ -28,19 +29,22 @@ export class AuthService {
   ): Promise<IAuthenticate> {
     const { email, password } = authCredentialsDto;
 
-    Logger.log('logging process ...');
+    this.logger.log('Validating user...');
     const user = await this.validateUser({ email } as JwtPayload);
 
     if (user && (await bcrypt.compare(password, user.password))) {
       const payload: JwtPayload = { email };
-      Logger.log('generating...');
+      this.logger.log('Generating key...');
       const accessToken = this.jwtService.sign(payload, {
         expiresIn: '1d',
         secret: 'secrete',
       });
-      Logger.log('Key generated....');
-      return { user, accessToken } as IAuthenticate;
+      this.logger.log('Key generated successfully');
+      const newUser = this.mapUserToUserResponseDto(user);
+
+      return { newUser, accessToken } as unknown as IAuthenticate;
     } else {
+      this.logger.warn('Invalid login credentials');
       throw new UnauthorizedException('Invalid login credentials');
     }
   }
@@ -56,8 +60,10 @@ export class AuthService {
       where: { email },
     } as FindOneOptions<User>);
     if (!user) {
+      this.logger.warn('User does not exist');
       throw new UnauthorizedException('User does not exist');
     }
+    this.logger.log('User validated successfully');
     return user;
   }
 
@@ -81,7 +87,7 @@ export class AuthService {
     newUser.password = await bcrypt.hash(password, 10);
 
     await this.userRepository.save(newUser);
-    Logger.log('generating key');
+    this.logger.log('User registered successfully');
     return this.authenticateUser({ email, password } as AuthenticationRequest);
   }
 
@@ -96,6 +102,7 @@ export class AuthService {
       where: { email },
     } as FindOneOptions<User>);
     if (!user) {
+      this.logger.log('User does not exist');
       return false;
     }
     return true;

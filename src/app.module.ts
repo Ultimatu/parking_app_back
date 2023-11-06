@@ -6,6 +6,12 @@ import { User } from './user/entities/user.entity';
 import { PassportModule } from '@nestjs/passport';
 import { SwaggerModule } from '@nestjs/swagger';
 import { JwtModule } from '@nestjs/jwt';
+import { ParkingspaceModule } from './parkingspace/parkingspace.module';
+import { AssignementModule } from './assignement/assignement.module';
+import { ParkingSpace } from './parkingspace/entities/parkingspace.entity';
+import { Assignment } from './assignement/entities/assignement.entity';
+import { CarsModule } from './cars/cars.module';
+import { Car } from './cars/entities/car.entity';
 
 @Module({
   imports: [
@@ -16,7 +22,7 @@ import { JwtModule } from '@nestjs/jwt';
       username: 'root',
       password: '',
       database: '_parking_service',
-      entities: [User],
+      entities: [User, ParkingSpace, Assignment, Car],
       synchronize: true,
     }),
     UserModule,
@@ -27,6 +33,9 @@ import { JwtModule } from '@nestjs/jwt';
       secret: 'secrete',
       signOptions: { expiresIn: '1d' },
     }),
+    ParkingspaceModule,
+    AssignementModule,
+    CarsModule,
   ],
   controllers: [],
   providers: [],

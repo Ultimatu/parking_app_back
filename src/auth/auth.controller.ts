@@ -15,7 +15,6 @@ import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { IAuthenticate } from './auth.interface';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { GuestGuard } from './guards/guest.guard';
-import { JwtAuthGuard } from './guards/jwt.guard';
 
 @ApiTags('Authentication')
 @Controller('auth')
@@ -35,7 +34,24 @@ export class AuthController {
           type: 'object',
           properties: {
             user: {
-              $ref: '#/components/schemas/UserResponseDto',
+              type: 'object',
+              properties: {
+                id: {
+                  type: 'number',
+                },
+                email: {
+                  type: 'string',
+                },
+                firstName: {
+                  type: 'string',
+                },
+                lastName: {
+                  type: 'string',
+                },
+                role: {
+                  type: 'string',
+                },
+              },
             },
             accessToken: {
               type: 'string',
@@ -70,6 +86,38 @@ export class AuthController {
   @ApiResponse({
     status: 201,
     description: 'User registered',
+    content: {
+      'application/json': {
+        schema: {
+          type: 'object',
+          properties: {
+            user: {
+              type: 'object',
+              properties: {
+                id: {
+                  type: 'number',
+                },
+                email: {
+                  type: 'string',
+                },
+                firstName: {
+                  type: 'string',
+                },
+                lastName: {
+                  type: 'string',
+                },
+                role: {
+                  type: 'string',
+                },
+              },
+            },
+            accessToken: {
+              type: 'string',
+            },
+          },
+        },
+      },
+    },
   })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiBody({ type: CreateUserDto })
@@ -87,23 +135,58 @@ export class AuthController {
     }
   }
 
-  @Post('refresh')
-  @UseGuards(JwtAuthGuard)
-  @ApiOperation({ summary: 'Refresh access token' })
-  @ApiResponse({ status: 201, description: 'Token refreshed' })
-  @ApiResponse({ status: 400, description: 'Bad Request' })
-  @ApiBody({ type: String })
-  async refresh(
-    @Body() refreshToken: string,
-    @Res() res,
-  ): Promise<IAuthenticate> {
-    try {
-      const result = await this.authService.refreshToken(refreshToken);
-      return res.status(HttpStatus.CREATED).json(result);
-    } catch (error) {
-      return res
-        .status(HttpStatus.BAD_REQUEST)
-        .json({ message: error.message });
-    }
-  }
+  // @Post('refresh')
+  // @UseGuards(JwtAuthGuard)
+  // @ApiOperation({ summary: 'Refresh access token' })
+  // @ApiBearerAuth()
+  // @ApiResponse({
+  //   status: 201,
+  //   description: 'Token refreshed',
+  //   content: {
+  //     'application/json': {
+  //       schema: {
+  //         type: 'object',
+  //         properties: {
+  //           user: {
+  //             type: 'object',
+  //             properties: {
+  //               id: {
+  //                 type: 'number',
+  //               },
+  //               email: {
+  //                 type: 'string',
+  //               },
+  //               firstName: {
+  //                 type: 'string',
+  //               },
+  //               lastName: {
+  //                 type: 'string',
+  //               },
+  //               role: {
+  //                 type: 'string',
+  //               },
+  //             },
+  //           },
+  //           accessToken: {
+  //             type: 'string',
+  //           },
+  //         },
+  //       },
+  //     },
+  //   },
+  // })
+  // @ApiResponse({ status: 400, description: 'Bad Request' })
+  // async refresh(
+  //   @Body() refreshToken: string,
+  //   @Res() res,
+  // ): Promise<IAuthenticate> {
+  //   try {
+  //     const result = await this.authService.refreshToken(refreshToken);
+  //     return res.status(HttpStatus.CREATED).json(result);
+  //   } catch (error) {
+  //     return res
+  //       .status(HttpStatus.BAD_REQUEST)
+  //       .json({ message: error.message });
+  //   }
+  // }
 }

@@ -1,42 +1,58 @@
 import {
   Controller,
   Get,
-  Post,
   Body,
   Patch,
   Param,
   Delete,
+  UseGuards,
+  Res,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
+import { Response } from 'express';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('user')
+@ApiTags('User')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.userService.create(createUserDto);
-  }
-
-  @Get()
-  findAll() {
-    return this.userService.findAll();
-  }
-
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userService.findOne(+id);
+  @UseGuards(JwtAuthGuard)
+  async getUserData(@Param('id') id: number, @Res() res: Response) {
+    try {
+      const user = await this.userService.findOne(id);
+      return res.status(200).json(user);
+    } catch (err) {
+      return res.status(400).json({ message: err.message });
+    }
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(+id, updateUserDto);
+  @UseGuards(JwtAuthGuard)
+  update(
+    @Param('id') id: number,
+    @Body() updateUserDto: UpdateUserDto,
+    @Res() res: Response,
+  ) {
+    try {
+      const user = this.userService.update(id, updateUserDto);
+      return res.status(200).json(user);
+    } catch (err) {
+      return res.status(400).json({ message: err.message });
+    }
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userService.remove(+id);
+  @UseGuards(JwtAuthGuard)
+  remove(@Param('id') id: number, @Res() res: Response) {
+    try {
+      this.userService.remove(id);
+      return res.status(200).json({ message: 'User deleted' });
+    } catch (err) {
+      return res.status(400).json({ message: err.message });
+    }
   }
 }

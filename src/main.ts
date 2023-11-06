@@ -17,7 +17,7 @@ async function bootstrap() {
       'These are the endpoints for the Parking System API implemented in NestJS',
     )
     .setVersion('1.0')
-    .addTag('parking')
+    .setBasePath('api')
     .build();
   const options: SwaggerDocumentOptions = {
     operationIdFactory: (controllerKey: string, methodKey: string) => methodKey,

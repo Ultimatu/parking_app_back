@@ -1,10 +1,9 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Injectable } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
@@ -12,23 +11,52 @@ export class UserService {
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
   ) {}
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+
+  async findAll(): Promise<User[]> {
+    return this.userRepository.find();
   }
 
-  findAll() {
-    return `This action returns all user`;
+  async findOne(id: number): Promise<User | undefined> {
+    return this.userRepository.findOneBy({ id });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
+    const existingUser = await this.userRepository.findOneBy({ id });
+
+    if (!existingUser) {
+      throw new Error(`User with ID ${id} not found.`);
+    }
+
+    if (updateUserDto.email) {
+      existingUser.email = updateUserDto.email;
+    }
+
+    if (updateUserDto.password) {
+      existingUser.password = await bcrypt.hash(updateUserDto.password, 10);
+    }
+
+    if (updateUserDto.role) {
+      existingUser.role = updateUserDto.role;
+    }
+
+    if (updateUserDto.firstName) {
+      existingUser.firstName = updateUserDto.firstName;
+    }
+
+    if (updateUserDto.lastName) {
+      existingUser.lastName = updateUserDto.lastName;
+    }
+
+    return this.userRepository.save(existingUser);
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
-  }
+  async remove(id: number): Promise<void> {
+    const existingUser = await this.userRepository.findOneBy({ id });
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+    if (!existingUser) {
+      throw new Error(`User with ID ${id} not found.`);
+    }
+
+    await this.userRepository.remove(existingUser);
   }
 }
