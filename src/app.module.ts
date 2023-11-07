@@ -38,8 +38,8 @@ import * as fs from 'fs';
     PassportModule,
     SwaggerModule,
     JwtModule.register({
-      secret: process.env.JWT_SECRET,
-      signOptions: { expiresIn: process.env.JWT_EXPIRES_IN },
+      secret: 'secret',
+      signOptions: { expiresIn: '1d' },
     }),
     ParkingspaceModule,
     AssignementModule,

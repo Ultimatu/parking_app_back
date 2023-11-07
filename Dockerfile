@@ -1,4 +1,4 @@
-FROM node:20.9.0-alpine as builder
+FROM node:20.9-alpine3.17 as builder
 ENV NODE_ENV=build
 WORKDIR /usr/src/app
 
@@ -12,7 +12,7 @@ RUN npm run build
 
 RUN npm prune --production
 
-FROM node:20.9.0-alpine
+FROM node:20.9-alpine3.17
   ENV NODE_ENV=production
 WORKDIR /usr/src/app
 
