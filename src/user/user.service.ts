@@ -34,11 +34,6 @@ export class UserService {
     if (updateUserDto.password) {
       existingUser.password = await bcrypt.hash(updateUserDto.password, 10);
     }
-
-    if (updateUserDto.role) {
-      existingUser.role = updateUserDto.role;
-    }
-
     if (updateUserDto.firstName) {
       existingUser.firstName = updateUserDto.firstName;
     }

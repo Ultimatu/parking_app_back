@@ -69,11 +69,15 @@ export class AuthService {
 
   /**
    * Register a new user and return the user and access token
+   * The default role is customer, but if the regAdmin flag is set to true, the role will be admin
    * @param regCredentialsDto - email, password, firstName, lastName, role
    * @returns User and access token
    */
-  async registerUser(regCredentialsDto: CreateUserDto): Promise<IAuthenticate> {
-    const { email, password, firstName, lastName, role } = regCredentialsDto;
+  async registerUser(
+    regCredentialsDto: CreateUserDto,
+    regAdmin: boolean = false,
+  ): Promise<IAuthenticate> {
+    const { email, password, firstName, lastName } = regCredentialsDto;
     const userExists = await this.verifyUser({ email } as JwtPayload);
     if (userExists) {
       throw new UnauthorizedException('User already exists');
@@ -82,7 +86,11 @@ export class AuthService {
     newUser.email = email;
     newUser.firstName = firstName;
     newUser.lastName = lastName;
-    newUser.role = role || Role.Customer; // Set a default role if not provided
+    if (regAdmin) {
+      newUser.role = Role.Admin;
+    } else {
+      newUser.role = Role.Customer;
+    }
 
     newUser.password = await bcrypt.hash(password, 10);
 

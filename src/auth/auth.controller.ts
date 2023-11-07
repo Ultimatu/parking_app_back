@@ -15,6 +15,10 @@ import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { IAuthenticate } from './auth.interface';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { GuestGuard } from './guards/guest.guard';
+import { JwtAuthGuard } from './guards/jwt.guard';
+import { Role } from 'src/user/entities/role.enum';
+import { RoleGuard } from './guards/role.guard';
+import { Roles } from './guards/role.decorator';
 
 @ApiTags('Authentication')
 @Controller('auth')
@@ -106,9 +110,6 @@ export class AuthController {
                 lastName: {
                   type: 'string',
                 },
-                role: {
-                  type: 'string',
-                },
               },
             },
             accessToken: {
@@ -126,7 +127,61 @@ export class AuthController {
     @Res() res,
   ): Promise<IAuthenticate> {
     try {
-      const result = await this.authService.registerUser(createUserDto);
+      const result = await this.authService.registerUser(createUserDto, false);
+      return res.status(HttpStatus.CREATED).json(result);
+    } catch (error) {
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: error.message });
+    }
+  }
+
+  @Post('register-admin')
+  @UseGuards(JwtAuthGuard, RoleGuard)
+  @Roles(Role.Admin)
+  @UsePipes(ValidationPipe)
+  @ApiOperation({ summary: 'Register new admin' })
+  @ApiResponse({
+    status: 201,
+    description: 'Admin registered',
+    content: {
+      'application/json': {
+        schema: {
+          type: 'object',
+          properties: {
+            user: {
+              type: 'object',
+              properties: {
+                id: {
+                  type: 'number',
+                },
+                email: {
+                  type: 'string',
+                },
+                firstName: {
+                  type: 'string',
+                },
+                lastName: {
+                  type: 'string',
+                },
+              },
+            },
+            accessToken: {
+              type: 'string',
+            },
+          },
+        },
+      },
+    },
+  })
+  @ApiResponse({ status: 400, description: 'Bad Request' })
+  @ApiBody({ type: CreateUserDto })
+  async registerAdmin(
+    @Body() createUserDto: CreateUserDto,
+    @Res() res,
+  ): Promise<IAuthenticate> {
+    try {
+      const result = await this.authService.registerUser(createUserDto, true);
       return res.status(HttpStatus.CREATED).json(result);
     } catch (error) {
       return res
