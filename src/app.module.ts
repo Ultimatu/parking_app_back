@@ -13,6 +13,7 @@ import { Assignment } from './assignement/entities/assignement.entity';
 import { CarsModule } from './cars/cars.module';
 import { Car } from './cars/entities/car.entity';
 import { ConfigModule } from '@nestjs/config';
+import * as fs from 'fs';
 
 @Module({
   imports: [
@@ -20,14 +21,17 @@ import { ConfigModule } from '@nestjs/config';
       isGlobal: true,
     }),
     TypeOrmModule.forRoot({
-      type: 'mysql', // Replace 'mysql' with the appropriate database type
+      type: 'mysql',
       host: process.env.DATABASE_HOST,
       port: parseInt(process.env.DATABASE_PORT),
       username: process.env.DATABASE_USER,
-      password: '',
-      database: '_parking_service',
+      password: process.env.DATABASE_PASSWORD,
+      database: process.env.DATABASE_NAME,
       entities: [User, ParkingSpace, Assignment, Car],
       synchronize: true,
+      ssl: {
+        ca: fs.readFileSync(process.env.SSL_CA_CERTIFICATES),
+      },
     }),
     UserModule,
     AuthModule,
