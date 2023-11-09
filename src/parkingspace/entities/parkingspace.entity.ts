@@ -18,6 +18,6 @@ export class ParkingSpace {
   @Column({ nullable: false, type: 'varchar', length: 255 })
   occupationTime: number;
 
-  @OneToMany(() => Assignment, (assignement) => assignement.parkingSpace)
+  @OneToMany(() => Assignment, assignement => assignement.parkingSpace)
   assignments: Assignment[];
 }

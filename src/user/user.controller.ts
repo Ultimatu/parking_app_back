@@ -14,7 +14,7 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { Response } from 'express';
 import { ApiTags } from '@nestjs/swagger';
 
-@Controller('user')
+@Controller('users')
 @ApiTags('User')
 export class UserController {
   constructor(private readonly userService: UserService) {}
@@ -51,6 +51,17 @@ export class UserController {
     try {
       this.userService.remove(id);
       return res.status(200).json({ message: 'User deleted' });
+    } catch (err) {
+      return res.status(400).json({ message: err.message });
+    }
+  }
+
+  @Get()
+  @UseGuards(JwtAuthGuard)
+  async getAllUsers(@Res() res: Response) {
+    try {
+      const users = await this.userService.findAll();
+      return res.status(200).json(users);
     } catch (err) {
       return res.status(400).json({ message: err.message });
     }

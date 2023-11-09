@@ -20,5 +20,5 @@ export class CreateParkingSpaceDto {
     example: 60,
     description: 'The time of occupation in minutes',
   })
-  occupationTime: number;
+  occupationTime: number = 60;
 }
