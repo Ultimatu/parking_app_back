@@ -3,19 +3,17 @@ import { AuthenticationRequest, IAuthenticate } from './auth.interface';
 import { User } from 'src/user/entities/user.entity';
 import { Repository, FindOneOptions } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { JwtPayload } from 'jsonwebtoken';
+import { JwtPayload, sign } from 'jsonwebtoken';
 import * as bcrypt from 'bcrypt';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { Role } from 'src/user/entities/role.enum';
 import { UserResponseDto } from 'src/user/dto/user-response.dto';
-import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
-    private jwtService: JwtService,
     private logger: Logger,
   ) {}
 
@@ -39,10 +37,7 @@ export class AuthService {
         role: user.role,
       };
       this.logger.log('Generating key...');
-      const accessToken = this.jwtService.sign(payload, {
-        expiresIn: '1d',
-        secret: 'secrete',
-      });
+      const accessToken = sign({...payload }, 'secrete');
       this.logger.log('Key generated successfully');
       const newUser = this.mapUserToUserResponseDto(user);
 
