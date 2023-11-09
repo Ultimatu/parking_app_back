@@ -7,8 +7,8 @@ import { JwtPayload } from 'jsonwebtoken';
 import * as bcrypt from 'bcrypt';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { Role } from 'src/user/entities/role.enum';
-import { JwtService } from '@nestjs/jwt';
 import { UserResponseDto } from 'src/user/dto/user-response.dto';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
@@ -33,7 +33,11 @@ export class AuthService {
     const user = await this.validateUser({ email } as JwtPayload);
 
     if (user && (await bcrypt.compare(password, user.password))) {
-      const payload: JwtPayload = { email };
+      const payload: JwtPayload = {
+        userId: user.id,
+        email: user.email,
+        role: user.role,
+      };
       this.logger.log('Generating key...');
       const accessToken = this.jwtService.sign(payload, {
         expiresIn: '1d',
