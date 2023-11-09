@@ -34,7 +34,7 @@ import { RoleGuard } from 'src/auth/guards/role.guard';
 export class CarsController {
   constructor(private readonly carsService: CarsService) {}
 
-  @Roles('customer')
+  @Roles('customer', 'admin')
   @UseGuards(JwtAuthGuard, RoleGuard)
   @UsePipes(ValidationPipe)
   @Post()

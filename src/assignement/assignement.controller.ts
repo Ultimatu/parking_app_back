@@ -86,6 +86,12 @@ export class AssignementController {
     }
   }
 
+  /**
+   * Update an assignment by ID with a partial DTO
+   * @param id : number - ID of the assignment
+   * @param updateAssignmentDto : UpdateAssignementDto - Partial DTO of the assignment
+   * @param res : Response - Response object from express
+   */
   @Patch(':id')
   @ApiOperation({ summary: 'Update an assignment by ID' })
   @ApiParam({ name: 'id', type: 'number' })
@@ -106,6 +112,12 @@ export class AssignementController {
     }
   }
 
+
+  /**
+   * Delete an assignment by ID
+   * @param id : number - ID of the assignment
+   * @param res : Response - Response object from express
+   */
   @Delete(':id')
   @ApiOperation({ summary: 'Delete an assignment by ID' })
   @ApiParam({ name: 'id', type: 'number' })
@@ -121,6 +133,13 @@ export class AssignementController {
     }
   }
 
+
+  /**
+   * Get assignments for a specific car
+   * @param imma : number - Immatriculation of the car
+   * @param res : Response - Response object from express
+   * @param isAssigned : boolean - Filter assignments by isAssigned
+   */
   @Roles('customer')
   @Get('found-my-car/:imma')
   @ApiOperation({ summary: 'Get assignments for a specific car' })

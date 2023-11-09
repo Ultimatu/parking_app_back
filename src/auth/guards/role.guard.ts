@@ -16,7 +16,7 @@ export class RoleGuard implements CanActivate {
    * @returns True if there is a match, indicating the user is allowed access; otherwise, false.
    */
   matchRoles(roles: string[], userRole: string) {
-    return roles.some((role) => role === userRole);
+    return roles.some(role => role === userRole);
   }
 
   /**
@@ -30,10 +30,13 @@ export class RoleGuard implements CanActivate {
       // If no roles are specified for the route, access is allowed.
       return true;
     }
+    console.log('roles', roles);
     const request = context.switchToHttp().getRequest();
     const user = request.user;
+    console.log('user', user);
 
     // Check if the user's role matches any of the required roles.
+    console.log('matchRoles', this.matchRoles(roles, user.role));
     return this.matchRoles(roles, user.role);
   }
 }
