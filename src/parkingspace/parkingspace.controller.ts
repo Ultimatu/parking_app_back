@@ -23,19 +23,16 @@ import {
   ApiResponse,
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
-import { Roles } from 'src/auth/guards/role.decorator';
-import { RoleGuard } from 'src/auth/guards/role.guard';
-import { Role } from 'src/user/entities/role.enum';
 
 @ApiTags('Parkingspaces')
 @Controller('admin/parkingspaces')
 @ApiBearerAuth()
-@UseGuards(JwtAuthGuard, RoleGuard)
+@UseGuards(JwtAuthGuard)
 export class ParkingspaceController {
   constructor(private readonly parkingspaceService: ParkingspaceService) {}
 
-  @Roles(Role.Admin)
-  @UseGuards(JwtAuthGuard, RoleGuard)
+  //@Roles(Role.Admin)
+  @UseGuards(JwtAuthGuard)
   @UsePipes(ValidationPipe)
   @Post()
   @ApiOperation({ summary: 'Create a new parking space' })
@@ -81,7 +78,7 @@ export class ParkingspaceController {
     }
   }
 
-  @Roles(Role.Admin)
+  ////@Roles(Role.Admin)
   @Patch(':id')
   @ApiOperation({ summary: 'Update a parking space by ID' })
   @ApiParam({ name: 'id', type: 'number' })
@@ -106,7 +103,7 @@ export class ParkingspaceController {
     }
   }
 
-  @Roles(Role.Admin)
+  //@Roles(Role.Admin)
   @Delete(':id')
   @ApiOperation({ summary: 'Delete a parking space by ID' })
   @ApiParam({ name: 'id', type: 'number' })

@@ -24,18 +24,15 @@ import {
   ApiResponse,
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
-import { Roles } from 'src/auth/guards/role.decorator';
-import { RoleGuard } from 'src/auth/guards/role.guard';
 
 @ApiTags('Cars')
 @Controller('cars')
 @ApiBearerAuth()
-@UseGuards(JwtAuthGuard, RoleGuard)
+@UseGuards(JwtAuthGuard)
 export class CarsController {
   constructor(private readonly carsService: CarsService) {}
 
-  @Roles('customer')
-  @UseGuards(JwtAuthGuard, RoleGuard)
+  @UseGuards(JwtAuthGuard)
   @UsePipes(ValidationPipe)
   @Post()
   @ApiOperation({ summary: 'Create a new car' })
@@ -53,7 +50,6 @@ export class CarsController {
   }
 
   @Get()
-  @Roles('customer')
   @ApiOperation({ summary: 'Get all cars' })
   @ApiResponse({ status: 200, description: 'Return all cars.' })
   async getAllCars(@Res() res): Promise<Car[]> {
@@ -66,7 +62,6 @@ export class CarsController {
   }
 
   @Get(':id')
-  @Roles('customer')
   @ApiOperation({ summary: 'Get a car by ID' })
   @ApiParam({ name: 'id', type: 'number' })
   async getCarById(
@@ -82,7 +77,6 @@ export class CarsController {
   }
 
   @Patch(':id')
-  @Roles('customer')
   @ApiOperation({ summary: 'Update a car by ID' })
   @ApiParam({ name: 'id', type: 'number' })
   @ApiBody({ type: UpdateCarDto })
@@ -94,7 +88,6 @@ export class CarsController {
   }
 
   @Delete(':id')
-  @Roles('customer')
   @ApiOperation({ summary: 'Delete a car by ID' })
   @ApiParam({ name: 'id', type: 'number' })
   async deleteCarById(@Param('id') id: number, @Res() res): Promise<void> {
@@ -107,7 +100,6 @@ export class CarsController {
   }
 
   @Get('user/:id')
-  @Roles('customer')
   @ApiOperation({ summary: 'Get cars associated with a user' })
   @ApiParam({ name: 'id', type: 'number' })
   async getCarsByUserId(@Param('id') id: number, @Res() res): Promise<Car[]> {

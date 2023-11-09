@@ -5,7 +5,6 @@ import { AuthModule } from './auth/auth.module';
 import { User } from './user/entities/user.entity';
 import { PassportModule } from '@nestjs/passport';
 import { SwaggerModule } from '@nestjs/swagger';
-import { JwtModule } from '@nestjs/jwt';
 import { ParkingspaceModule } from './parkingspace/parkingspace.module';
 import { AssignementModule } from './assignement/assignement.module';
 import { ParkingSpace } from './parkingspace/entities/parkingspace.entity';
@@ -37,10 +36,6 @@ import * as fs from 'fs';
     AuthModule,
     PassportModule,
     SwaggerModule,
-    JwtModule.register({
-      secret: 'secret',
-      signOptions: { expiresIn: '1d' },
-    }),
     ParkingspaceModule,
     AssignementModule,
     CarsModule,

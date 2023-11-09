@@ -16,9 +16,6 @@ import { IAuthenticate } from './auth.interface';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { GuestGuard } from './guards/guest.guard';
 import { JwtAuthGuard } from './guards/jwt.guard';
-import { Role } from 'src/user/entities/role.enum';
-import { RoleGuard } from './guards/role.guard';
-import { Roles } from './guards/role.decorator';
 
 @ApiTags('Authentication')
 @Controller('auth')
@@ -138,8 +135,7 @@ export class AuthController {
   }
 
   @Post('register-admin')
-  @UseGuards(JwtAuthGuard, RoleGuard)
-  @Roles(Role.Admin)
+  @UseGuards(JwtAuthGuard)
   @UsePipes(ValidationPipe)
   @ApiOperation({ summary: 'Register new admin' })
   @ApiResponse({
