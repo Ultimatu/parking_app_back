@@ -31,13 +31,13 @@ export class AuthService {
     const user = await this.validateUser({ email } as JwtPayload);
 
     if (user && (await bcrypt.compare(password, user.password))) {
-      const payload: JwtPayload = {
-        userId: user.id,
-        email: user.email,
-        role: user.role,
-      };
+      // const payload: JwtPayload = {
+      //   userId: user.id,
+      //   email: user.email,
+      //   role: user.role,
+      // };
       this.logger.log('Generating key...');
-      const accessToken = sign({ ...payload }, 'secrete');
+      const accessToken = sign({ ...user }, 'secrete');
       this.logger.log('Key generated successfully');
       const newUser = this.mapUserToUserResponseDto(user);
 
@@ -115,18 +115,18 @@ export class AuthService {
     return true;
   }
 
-  /**
-   * Refresh access token
-   * @param refreshToken - refresh token
-   * @returns User and access token
-   */
-  async refreshToken(refreshToken: string): Promise<IAuthenticate> {
-    // const payload = .verify(refreshToken);
-    // const user = await this.validateUser(payload);
-    // const accessToken =  sign({...})
-    // return { user, accessToken } as IAuthenticate;
-    return null;
-  }
+  // /**
+  //  * Refresh access token
+  //  * @param refreshToken - refresh token
+  //  * @returns User and access token
+  //  */
+  // async refreshToken(refreshToken: string): Promise<IAuthenticate> {
+  //   // const payload = .verify(refreshToken);
+  //   // const user = await this.validateUser(payload);
+  //   // const accessToken =  sign({...})
+  //   // return { user, accessToken } as IAuthenticate;
+  //   return null;
+  // }
 
   /**
    * This method is used to return user details in the response without the password
