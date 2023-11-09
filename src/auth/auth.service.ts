@@ -37,7 +37,7 @@ export class AuthService {
         role: user.role,
       };
       this.logger.log('Generating key...');
-      const accessToken = sign({...payload }, 'secrete');
+      const accessToken = sign({ ...payload }, 'secrete');
       this.logger.log('Key generated successfully');
       const newUser = this.mapUserToUserResponseDto(user);
 
@@ -121,12 +121,11 @@ export class AuthService {
    * @returns User and access token
    */
   async refreshToken(refreshToken: string): Promise<IAuthenticate> {
-    const payload = this.jwtService.verify(refreshToken);
-    const user = await this.validateUser(payload);
-    const accessToken = this.jwtService.sign(payload, {
-      expiresIn: '1d',
-    });
-    return { user, accessToken } as IAuthenticate;
+    // const payload = .verify(refreshToken);
+    // const user = await this.validateUser(payload);
+    // const accessToken =  sign({...})
+    // return { user, accessToken } as IAuthenticate;
+    return null;
   }
 
   /**
