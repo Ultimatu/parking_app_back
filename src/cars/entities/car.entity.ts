@@ -15,7 +15,7 @@ export class Car {
   @Column()
   color: string;
 
-  @ManyToOne(() => User, (user) => user.cars, {
+  @ManyToOne(() => User, user => user.cars, {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
     eager: true,

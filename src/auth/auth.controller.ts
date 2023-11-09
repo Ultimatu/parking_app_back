@@ -72,6 +72,7 @@ export class AuthController {
     @Res() res,
   ): Promise<IAuthenticate> {
     try {
+      Logger.log('authenticating user...');
       const result =
         await this.authService.authenticateUser(authCredentialsDto);
       Logger.log('returning response...');
@@ -138,7 +139,6 @@ export class AuthController {
 
   @Post('register-admin')
   @UseGuards(JwtAuthGuard, RoleGuard)
-  @Roles(Role.Admin)
   @UsePipes(ValidationPipe)
   @ApiOperation({ summary: 'Register new admin' })
   @ApiResponse({
