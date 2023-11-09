@@ -138,7 +138,6 @@ export class AuthController {
   }
 
   @Post('register-admin')
-  @UseGuards(JwtAuthGuard, RoleGuard)
   @UsePipes(ValidationPipe)
   @ApiOperation({ summary: 'Register new admin' })
   @ApiResponse({
