@@ -17,8 +17,20 @@ export class CreateParkingSpaceDto {
   isAvailable: boolean;
 
   @ApiProperty({
-    example: 60,
-    description: 'The time of occupation in minutes',
+    example: '08:00:00',
+    description: 'The open time of the parking space',
   })
-  occupationTime: number = 60;
+  openTime: string;
+
+  @ApiProperty({
+    example: '18:00:00',
+    description: 'The close time of the parking space',
+  })
+  closeTime: string;
+
+  @ApiProperty({
+    example: 'Rua do Ouro, 1000-001 Lisboa',
+    description: 'The address of the parking space',
+  })
+  address: string;
 }

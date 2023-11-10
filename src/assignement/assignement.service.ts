@@ -59,6 +59,7 @@ export class AssignementService {
     newAssignment.car = car;
     newAssignment.parkingSpace = parkingSpace;
     newAssignment.assDate = createAssignementDto.assDate || new Date();
+    newAssignment.floorNumber = parkingSpace.floor;
 
     // Update parkingSpace information
     parkingSpace.floor--;

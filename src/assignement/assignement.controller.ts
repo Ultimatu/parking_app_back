@@ -26,8 +26,6 @@ import {
   ApiQuery,
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
-import { Roles } from 'src/auth/guards/role.decorator';
-import { RoleGuard } from 'src/auth/guards/role.guard';
 
 @ApiTags('Assignments')
 @Controller('assignments')
@@ -36,8 +34,7 @@ import { RoleGuard } from 'src/auth/guards/role.guard';
 export class AssignementController {
   constructor(private readonly assignementService: AssignementService) {}
 
-  @Roles('admin')
-  @UseGuards(JwtAuthGuard, RoleGuard)
+  @UseGuards(JwtAuthGuard)
   @UsePipes(ValidationPipe)
   @Post()
   @ApiOperation({ summary: 'Create a new assignment' })
@@ -131,7 +128,6 @@ export class AssignementController {
       return res.status(400).json({ message: err.message });
     }
   }
-
 
   /**
    * Get assignments for a specific car

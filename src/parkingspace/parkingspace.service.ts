@@ -23,7 +23,9 @@ export class ParkingspaceService {
     newParkingSpace.parkingNumber = createParkingSpaceDto.parkingNumber;
     newParkingSpace.isAvailable = createParkingSpaceDto.isAvailable;
     newParkingSpace.floor = createParkingSpaceDto.floor;
-    newParkingSpace.occupationTime = createParkingSpaceDto.occupationTime;
+    newParkingSpace.openTime = createParkingSpaceDto.openTime;
+    newParkingSpace.closeTime = createParkingSpaceDto.closeTime;
+    newParkingSpace.address = createParkingSpaceDto.address;
     return this.parkingspaceRepository.save(newParkingSpace);
   }
 
@@ -65,7 +67,9 @@ export class ParkingspaceService {
     parkingspace.parkingNumber = updateParkingSpaceDto.parkingNumber;
     parkingspace.isAvailable = updateParkingSpaceDto.isAvailable;
     parkingspace.floor = updateParkingSpaceDto.floor;
-    parkingspace.occupationTime = updateParkingSpaceDto.occupationTime;
+    parkingspace.openTime = updateParkingSpaceDto.openTime;
+    parkingspace.closeTime = updateParkingSpaceDto.closeTime;
+    parkingspace.address = updateParkingSpaceDto.address;
     return this.parkingspaceRepository.save(parkingspace);
   }
 

@@ -9,6 +9,7 @@ import {
   Res,
   UsePipes,
   ValidationPipe,
+  UseGuards,
 } from '@nestjs/common';
 import { ParkingspaceService } from './parkingspace.service';
 import { CreateParkingSpaceDto } from './dto/create-parkingspace.dto';
@@ -20,14 +21,16 @@ import {
   ApiBody,
   ApiResponse,
 } from '@nestjs/swagger';
+import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 
 @ApiTags('Parkingspaces')
 @Controller('admin/parkingspaces')
+@UseGuards(JwtAuthGuard)
 export class ParkingspaceController {
   constructor(private readonly parkingspaceService: ParkingspaceService) {}
 
-  @UsePipes(ValidationPipe)
   @Post()
+  @UsePipes(ValidationPipe)
   @ApiOperation({ summary: 'Create a new parking space' })
   @ApiBody({ type: CreateParkingSpaceDto })
   async createParkingSpace(
@@ -71,7 +74,6 @@ export class ParkingspaceController {
     }
   }
 
-  ////@Roles(Role.Admin)
   @Patch(':id')
   @ApiOperation({ summary: 'Update a parking space by ID' })
   @ApiParam({ name: 'id', type: 'number' })
@@ -96,7 +98,6 @@ export class ParkingspaceController {
     }
   }
 
-  //@Roles(Role.Admin)
   @Delete(':id')
   @ApiOperation({ summary: 'Delete a parking space by ID' })
   @ApiParam({ name: 'id', type: 'number' })

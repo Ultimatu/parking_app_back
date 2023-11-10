@@ -16,7 +16,13 @@ export class ParkingSpace {
   isAvailable: boolean;
 
   @Column({ nullable: false, type: 'varchar', length: 255 })
-  occupationTime: number;
+  address: string;
+
+  @Column({ nullable: false, type: 'varchar', length: 255 })
+  openTime: string;
+
+  @Column({ nullable: false, type: 'varchar', length: 255 })
+  closeTime: string;
 
   @OneToMany(() => Assignment, assignement => assignement.parkingSpace)
   assignments: Assignment[];

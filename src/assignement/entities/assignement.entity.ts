@@ -17,10 +17,13 @@ export class Assignment {
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   assDate: Date;
 
-  @ManyToOne(() => User, (user) => user.assignments)
+  @ManyToOne(() => User, user => user.assignments)
   user: User;
 
-  @ManyToOne(() => ParkingSpace, (parkingSpace) => parkingSpace.assignments)
+  @Column({ nullable: false, type: 'int' })
+  floorNumber: number;
+
+  @ManyToOne(() => ParkingSpace, parkingSpace => parkingSpace.assignments)
   parkingSpace: ParkingSpace;
 
   @OneToOne(() => Car)

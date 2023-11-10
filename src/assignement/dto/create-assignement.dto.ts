@@ -15,6 +15,13 @@ export class CreateAssignmentDto {
 
   @ApiProperty({
     example: 1,
+    description:
+      'The floor number of the parking space associated with the assignment',
+  })
+  floorNumber: number;
+
+  @ApiProperty({
+    example: 1,
     description: 'The ID of the car associated with the assignment',
   })
   carId: number;
