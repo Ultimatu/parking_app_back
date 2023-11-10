@@ -30,33 +30,19 @@ export class AssignementService {
       throw new NotFoundException('ParkingSpace not available');
     }
 
-    // Verify if user, car, and parkingSpace exist
-    const [user, car] = await Promise.all([
+    const [user] = await Promise.all([
       this.userRepository.findOne({
         where: { id: createAssignementDto.userId },
       } as FindOneOptions<User>),
-      this.carRepository.findOne({
-        where: { id: createAssignementDto.carId },
-      } as FindOneOptions<Car>),
     ]);
 
-    if (!user || !car) {
-      throw new NotFoundException('User or Car not found');
-    }
-
-    // Check if the car is already assigned
-    const existingAssignment = await this.assignementRepository.findOne({
-      where: { car: car },
-    } as FindOneOptions<Assignment>);
-
-    if (existingAssignment) {
-      throw new NotFoundException('This car is already assigned');
+    if (!user) {
+      throw new NotFoundException('User not found');
     }
 
     // Create a new assignement
     const newAssignment = new Assignment();
     newAssignment.user = user;
-    newAssignment.car = car;
     newAssignment.parkingSpace = parkingSpace;
     newAssignment.assDate = createAssignementDto.assDate || new Date();
     newAssignment.floorNumber = parkingSpace.floor;
@@ -99,25 +85,19 @@ export class AssignementService {
     }
 
     // Update the assignment with the new data
-    const [user, car, parkingSpace] = await Promise.all([
+    const [user, parkingSpace] = await Promise.all([
       this.userRepository.findOneBy({
         id: updateAssignmentDto.userId,
       }),
-      this.carRepository.findOne({
-        where: { id: updateAssignmentDto.carId },
-      } as FindOneOptions<Car>),
-
       this.parkingSpaceRepository.findOneBy({
         id: updateAssignmentDto.parkingSpaceId,
       }),
     ]);
 
-    if (!user || !car || !parkingSpace) {
-      throw new NotFoundException('User, Car, or ParkingSpace not found');
+    if (!user || !parkingSpace) {
+      throw new NotFoundException('User, or ParkingSpace not found');
     }
-
     existingAssignment.user = user;
-    existingAssignment.car = car;
     existingAssignment.parkingSpace = parkingSpace;
     existingAssignment.assDate = updateAssignmentDto.assDate;
 
@@ -154,23 +134,15 @@ export class AssignementService {
     return assignment;
   }
 
-  /**
-   * Get all assignments.
-   * @returns A list of all assignments.
-   * @param imma - The Immatirculation of the car to retrieve assignments for.
-   * @param isAssigned - Whether the assignment is assigned or not.
-   * @returns A list of assignments associated with the car.
-   */
-  async findAssignmentsForCar(imma: string): Promise<Assignment[]> {
-    const car = await this.carRepository.findOne({
-      where: { imma },
-    } as FindOneOptions<Car>);
-    if (!car) {
-      throw new NotFoundException('Car not found');
+  async findUserAssignment(id: number) {
+    const user = await this.userRepository.findOne({
+      where: { id },
+      relations: ['assignments', 'assignments.parkingSpace'],
+    });
+    if (!user) {
+      throw new NotFoundException('User not found');
     }
 
-    return this.assignementRepository.find({
-      where: { carId: car.id },
-    } as FindOneOptions<Assignment>);
+    return user.assignments;
   }
 }

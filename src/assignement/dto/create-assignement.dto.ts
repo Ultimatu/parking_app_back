@@ -21,12 +21,6 @@ export class CreateAssignmentDto {
   floorNumber: number;
 
   @ApiProperty({
-    example: 1,
-    description: 'The ID of the car associated with the assignment',
-  })
-  carId: number;
-
-  @ApiProperty({
     example: '2021-01-01',
     description: 'The date of the assignment',
   })

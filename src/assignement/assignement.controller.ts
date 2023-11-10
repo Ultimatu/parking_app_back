@@ -5,10 +5,7 @@ import {
   Delete,
   Param,
   Body,
-  UseGuards,
   Res,
-  UsePipes,
-  ValidationPipe,
   Put,
 } from '@nestjs/common';
 import { AssignementService } from './assignement.service';
@@ -20,20 +17,18 @@ import {
   ApiOperation,
   ApiParam,
   ApiBody,
-  ApiBearerAuth,
   ApiResponse,
 } from '@nestjs/swagger';
-import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 
 @ApiTags('Assignments')
 @Controller('assignments')
-@ApiBearerAuth()
-@UseGuards(JwtAuthGuard)
+// @ApiBearerAuth()
+// @UseGuards(JwtAuthGuard)
 export class AssignementController {
   constructor(private readonly assignementService: AssignementService) {}
 
-  @UseGuards(JwtAuthGuard)
-  @UsePipes(ValidationPipe)
+  // @UseGuards(JwtAuthGuard)
+  // @UsePipes(ValidationPipe)
   @Post()
   @ApiOperation({ summary: 'Create a new assignment' })
   @ApiBody({ type: CreateAssignmentDto })
@@ -128,20 +123,19 @@ export class AssignementController {
   }
 
   /**
-   * Get assignments for a specific car
-   * @param imma : number - Immatriculation of the car
+   * Get assignments for a specific User
+   * @param id : number - Id of the User
    * @param res : Response - Response object from express
    */
-  @Get('found-my-car/:imma')
+  @Get('my-parkings/:id')
   @ApiOperation({ summary: 'Get assignments for a specific car' })
-  @ApiParam({ name: 'imma', type: 'string' })
+  @ApiParam({ name: 'id', type: 'int' })
   async getAssignmentsForCar(
-    @Param('imma') imma: string,
+    @Param('id') id: number,
     @Res() res,
   ): Promise<Assignment[]> {
     try {
-      const assignments =
-        await this.assignementService.findAssignmentsForCar(imma);
+      const assignments = await this.assignementService.findUserAssignment(id);
       return res.status(200).json(assignments);
     } catch (err) {
       return res.status(400).json({ message: err.message });
