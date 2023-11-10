@@ -1,4 +1,9 @@
-import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  HttpException,
+  Injectable,
+  Logger,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ParkingSpace } from './entities/parkingspace.entity';
 import { Repository } from 'typeorm';
@@ -23,6 +28,7 @@ export class ParkingspaceService {
     const parkingspace = await this.parkingspaceRepository.findOne({
       where: { parkingNumber: createParkingSpaceDto.parkingNumber },
     });
+    Logger.log(parkingspace);
     if (parkingspace) {
       throw new HttpException('Cet Parking existe déjà', 409);
     }
