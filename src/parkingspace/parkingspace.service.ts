@@ -1,9 +1,4 @@
-import {
-  HttpException,
-  Injectable,
-  Logger,
-  NotFoundException,
-} from '@nestjs/common';
+import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ParkingSpace } from './entities/parkingspace.entity';
 import { Repository } from 'typeorm';
@@ -24,15 +19,6 @@ export class ParkingspaceService {
   async create(
     createParkingSpaceDto: CreateParkingSpaceDto,
   ): Promise<ParkingSpace> {
-    //verify is the name exist
-    const parkingspace = await this.parkingspaceRepository.findOne({
-      where: { parkingNumber: createParkingSpaceDto.parkingNumber },
-    });
-    Logger.log(parkingspace.parkingNumber);
-    if (parkingspace) {
-      throw new HttpException('Cet Parking existe déjà', 409);
-    }
-
     const newParkingSpace = new ParkingSpace();
     newParkingSpace.parkingNumber = createParkingSpaceDto.parkingNumber;
     newParkingSpace.isAvailable = createParkingSpaceDto.isAvailable;
@@ -75,9 +61,6 @@ export class ParkingspaceService {
     const parkingspace = await this.parkingspaceRepository.findOne({
       where: { id },
     });
-    if (!parkingspace) {
-      throw new HttpException("Cet Parking n'existe pas", 409);
-    }
     const parkingspac1 = await this.parkingspaceRepository.findOne({
       where: { parkingNumber: updateParkingSpaceDto.parkingNumber },
     });
