@@ -9,7 +9,11 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.setGlobalPrefix('api');
-  app.enableCors();
+  app.enableCors({
+    origin: ['*'],
+    methods: ['GET,HEAD,PUT,PATCH,POST,DELETE'],
+    credentials: true,
+  });
 
   const config = new DocumentBuilder()
     .setTitle('Parking System API')
@@ -21,6 +25,7 @@ async function bootstrap() {
   const options: SwaggerDocumentOptions = {
     operationIdFactory: (controllerKey: string, methodKey: string) => methodKey,
   };
+
   const document = SwaggerModule.createDocument(app, config, options);
   SwaggerModule.setup('api', app, document);
   await app.listen(3000);
