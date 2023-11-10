@@ -19,19 +19,15 @@ import {
   ApiOperation,
   ApiParam,
   ApiBody,
-  ApiBearerAuth,
   ApiResponse,
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 
 @ApiTags('Parkingspaces')
 @Controller('admin/parkingspaces')
-@ApiBearerAuth()
-@UseGuards(JwtAuthGuard)
 export class ParkingspaceController {
   constructor(private readonly parkingspaceService: ParkingspaceService) {}
 
-  //@Roles(Role.Admin)
   @UseGuards(JwtAuthGuard)
   @UsePipes(ValidationPipe)
   @Post()

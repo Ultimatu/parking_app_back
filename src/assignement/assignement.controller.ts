@@ -32,7 +32,7 @@ import { RoleGuard } from 'src/auth/guards/role.guard';
 @ApiTags('Assignments')
 @Controller('assignments')
 @ApiBearerAuth()
-@UseGuards(JwtAuthGuard, RoleGuard)
+@UseGuards(JwtAuthGuard)
 export class AssignementController {
   constructor(private readonly assignementService: AssignementService) {}
 
@@ -112,7 +112,6 @@ export class AssignementController {
     }
   }
 
-
   /**
    * Delete an assignment by ID
    * @param id : number - ID of the assignment
@@ -140,7 +139,6 @@ export class AssignementController {
    * @param res : Response - Response object from express
    * @param isAssigned : boolean - Filter assignments by isAssigned
    */
-  @Roles('customer')
   @Get('found-my-car/:imma')
   @ApiOperation({ summary: 'Get assignments for a specific car' })
   @ApiParam({ name: 'imma', type: 'string' })

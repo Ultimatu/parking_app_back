@@ -15,7 +15,6 @@ import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { IAuthenticate } from './auth.interface';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { GuestGuard } from './guards/guest.guard';
-import { JwtAuthGuard } from './guards/jwt.guard';
 
 @ApiTags('Authentication')
 @Controller('auth')
@@ -135,7 +134,6 @@ export class AuthController {
   }
 
   @Post('register-admin')
-  @UseGuards(JwtAuthGuard)
   @UsePipes(ValidationPipe)
   @ApiOperation({ summary: 'Register new admin' })
   @ApiResponse({
