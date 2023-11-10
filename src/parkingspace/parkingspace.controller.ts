@@ -8,8 +8,9 @@ import {
   Res,
   UsePipes,
   ValidationPipe,
-  UseGuards,
+  //UseGuards,
   Put,
+  Logger,
 } from '@nestjs/common';
 import { ParkingspaceService } from './parkingspace.service';
 import { CreateParkingSpaceDto } from './dto/create-parkingspace.dto';
@@ -21,11 +22,10 @@ import {
   ApiBody,
   ApiResponse,
 } from '@nestjs/swagger';
-import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
+//import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 
 @ApiTags('Parkingspaces')
 @Controller('admin/parkingspaces')
-@UseGuards(JwtAuthGuard)
 export class ParkingspaceController {
   constructor(private readonly parkingspaceService: ParkingspaceService) {}
 
@@ -52,6 +52,7 @@ export class ParkingspaceController {
   @ApiResponse({ status: 200, description: 'Return all parking spaces.' })
   async getAllParkingSpaces(@Res() res): Promise<ParkingSpace[]> {
     try {
+      Logger.log('Get all parking spaces');
       const parkingSpaces = await this.parkingspaceService.findAll();
       return res.status(200).json(parkingSpaces);
     } catch (err) {
@@ -84,6 +85,7 @@ export class ParkingspaceController {
     @Res() res,
   ): Promise<ParkingSpace | undefined> {
     try {
+      Logger.log('Update parking space by ID');
       const parkingSpace = await this.parkingspaceService.update(
         id,
         updateParkingSpaceDto,
