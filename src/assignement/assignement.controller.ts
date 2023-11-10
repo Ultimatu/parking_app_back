@@ -2,7 +2,6 @@ import {
   Controller,
   Get,
   Post,
-  Patch,
   Delete,
   Param,
   Body,
@@ -11,6 +10,7 @@ import {
   UsePipes,
   ValidationPipe,
   Query,
+  Put,
 } from '@nestjs/common';
 import { AssignementService } from './assignement.service';
 import { CreateAssignmentDto } from './dto/create-assignement.dto';
@@ -89,7 +89,7 @@ export class AssignementController {
    * @param updateAssignmentDto : UpdateAssignementDto - Partial DTO of the assignment
    * @param res : Response - Response object from express
    */
-  @Patch(':id')
+  @Put(':id')
   @ApiOperation({ summary: 'Update an assignment by ID' })
   @ApiParam({ name: 'id', type: 'number' })
   @ApiBody({ type: UpdateAssignementDto })

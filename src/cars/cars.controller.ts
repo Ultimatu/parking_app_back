@@ -2,7 +2,6 @@ import {
   Controller,
   Get,
   Post,
-  Patch,
   Delete,
   Param,
   Body,
@@ -10,6 +9,7 @@ import {
   Res,
   UsePipes,
   ValidationPipe,
+  Put,
 } from '@nestjs/common';
 import { CarsService } from './cars.service';
 import { CreateCarDto } from './dto/create-car.dto';
@@ -76,7 +76,7 @@ export class CarsController {
     }
   }
 
-  @Patch(':id')
+  @Put(':id')
   @ApiOperation({ summary: 'Update a car by ID' })
   @ApiParam({ name: 'id', type: 'number' })
   @ApiBody({ type: UpdateCarDto })

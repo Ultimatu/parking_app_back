@@ -2,11 +2,11 @@ import {
   Controller,
   Get,
   Body,
-  Patch,
   Param,
   Delete,
   UseGuards,
   Res,
+  Put,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -30,7 +30,7 @@ export class UserController {
     }
   }
 
-  @Patch(':id')
+  @Put(':id')
   @UseGuards(JwtAuthGuard)
   update(
     @Param('id') id: number,
