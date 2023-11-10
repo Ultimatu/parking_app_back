@@ -1,4 +1,4 @@
-import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ParkingSpace } from './entities/parkingspace.entity';
 import { Repository } from 'typeorm';
@@ -61,13 +61,6 @@ export class ParkingspaceService {
     const parkingspace = await this.parkingspaceRepository.findOne({
       where: { id },
     });
-    const parkingspac1 = await this.parkingspaceRepository.findOne({
-      where: { parkingNumber: updateParkingSpaceDto.parkingNumber },
-    });
-
-    if (parkingspac1.id !== id) {
-      throw new HttpException("Il y'a une autre parking avec le même nom", 409);
-    }
 
     parkingspace.parkingNumber = updateParkingSpaceDto.parkingNumber;
     parkingspace.isAvailable = updateParkingSpaceDto.isAvailable;
