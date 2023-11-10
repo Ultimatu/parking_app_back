@@ -29,14 +29,14 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 
 @ApiTags('Parkingspaces')
 @Controller('admin/parkingspaces')
-@ApiResponse({ status: 401, description: 'Unauthorized' })
-@UseGuards(JwtAuthGuard)
 @ApiBearerAuth()
+@UseGuards(JwtAuthGuard)
 export class ParkingspaceController {
   constructor(private readonly parkingspaceService: ParkingspaceService) {}
 
-  @Post()
+  @UseGuards(JwtAuthGuard)
   @UsePipes(ValidationPipe)
+  @Post()
   @ApiOperation({ summary: 'Create a new parking space' })
   @ApiBody({ type: CreateParkingSpaceDto })
   async createParkingSpace(
@@ -53,6 +53,7 @@ export class ParkingspaceController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get()
   @ApiOperation({ summary: 'Get all parking spaces' })
   @ApiResponse({ status: 200, description: 'Return all parking spaces.' })
@@ -66,6 +67,7 @@ export class ParkingspaceController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get(':id')
   @ApiOperation({ summary: 'Get a parking space by ID' })
   @ApiParam({ name: 'id', type: 'number' })
@@ -81,6 +83,7 @@ export class ParkingspaceController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @Put(':id')
   @ApiOperation({ summary: 'Update a parking space by ID' })
   @ApiParam({ name: 'id', type: 'number' })
@@ -106,6 +109,7 @@ export class ParkingspaceController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
   @ApiOperation({ summary: 'Delete a parking space by ID' })
   @ApiParam({ name: 'id', type: 'number' })
@@ -125,6 +129,7 @@ export class ParkingspaceController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get('available')
   @ApiOperation({ summary: 'Get all available parking spaces' })
   async getAvailableParkingSpaces(@Res() res): Promise<ParkingSpace[]> {
@@ -136,6 +141,7 @@ export class ParkingspaceController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get('unavailable')
   @ApiOperation({ summary: 'Get all unavailable parking spaces' })
   async getUnavailableParkingSpaces(@Res() res): Promise<ParkingSpace[]> {
