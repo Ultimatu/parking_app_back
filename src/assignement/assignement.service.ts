@@ -161,18 +161,16 @@ export class AssignementService {
    * @param isAssigned - Whether the assignment is assigned or not.
    * @returns A list of assignments associated with the car.
    */
-  async findAssignmentsForCar(
-    imma: number,
-    isAssigned?: boolean,
-  ): Promise<Assignment[]> {
-    const query: any = { car: { imma: imma } };
-
-    if (isAssigned !== undefined) {
-      query.isAssigned = isAssigned;
+  async findAssignmentsForCar(imma: string): Promise<Assignment[]> {
+    const car = await this.carRepository.findOne({
+      where: { imma },
+    } as FindOneOptions<Car>);
+    if (!car) {
+      throw new NotFoundException('Car not found');
     }
 
     return this.assignementRepository.find({
-      where: query,
+      where: { carId: car.id },
     } as FindOneOptions<Assignment>);
   }
 }

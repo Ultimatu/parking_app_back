@@ -9,7 +9,6 @@ import {
   Res,
   UsePipes,
   ValidationPipe,
-  Query,
   Put,
 } from '@nestjs/common';
 import { AssignementService } from './assignement.service';
@@ -23,7 +22,6 @@ import {
   ApiBody,
   ApiBearerAuth,
   ApiResponse,
-  ApiQuery,
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 
@@ -133,22 +131,17 @@ export class AssignementController {
    * Get assignments for a specific car
    * @param imma : number - Immatriculation of the car
    * @param res : Response - Response object from express
-   * @param isAssigned : boolean - Filter assignments by isAssigned
    */
   @Get('found-my-car/:imma')
   @ApiOperation({ summary: 'Get assignments for a specific car' })
   @ApiParam({ name: 'imma', type: 'string' })
-  @ApiQuery({ name: 'isAssigned', type: 'boolean', required: false })
   async getAssignmentsForCar(
-    @Param('imma') imma: number,
+    @Param('imma') imma: string,
     @Res() res,
-    @Query('isAssigned') isAssigned?: boolean,
   ): Promise<Assignment[]> {
     try {
-      const assignments = await this.assignementService.findAssignmentsForCar(
-        imma,
-        isAssigned,
-      );
+      const assignments =
+        await this.assignementService.findAssignmentsForCar(imma);
       return res.status(200).json(assignments);
     } catch (err) {
       return res.status(400).json({ message: err.message });
