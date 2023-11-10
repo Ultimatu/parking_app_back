@@ -2,7 +2,6 @@ import {
   Controller,
   Get,
   Post,
-  Patch,
   Delete,
   Param,
   Body,
@@ -10,6 +9,7 @@ import {
   UsePipes,
   ValidationPipe,
   UseGuards,
+  Put,
 } from '@nestjs/common';
 import { ParkingspaceService } from './parkingspace.service';
 import { CreateParkingSpaceDto } from './dto/create-parkingspace.dto';
@@ -74,7 +74,7 @@ export class ParkingspaceController {
     }
   }
 
-  @Patch(':id')
+  @Put(':id')
   @ApiOperation({ summary: 'Update a parking space by ID' })
   @ApiParam({ name: 'id', type: 'number' })
   @ApiBody({ type: CreateParkingSpaceDto })
