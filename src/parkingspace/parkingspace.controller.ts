@@ -11,6 +11,7 @@ import {
   //UseGuards,
   Put,
   Logger,
+  UseGuards,
 } from '@nestjs/common';
 import { ParkingspaceService } from './parkingspace.service';
 import { CreateParkingSpaceDto } from './dto/create-parkingspace.dto';
@@ -21,11 +22,16 @@ import {
   ApiParam,
   ApiBody,
   ApiResponse,
+  ApiBearerAuth,
 } from '@nestjs/swagger';
+import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 //import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 
 @ApiTags('Parkingspaces')
 @Controller('admin/parkingspaces')
+@ApiResponse({ status: 401, description: 'Unauthorized' })
+@UseGuards(JwtAuthGuard)
+@ApiBearerAuth()
 export class ParkingspaceController {
   constructor(private readonly parkingspaceService: ParkingspaceService) {}
 

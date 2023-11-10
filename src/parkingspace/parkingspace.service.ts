@@ -28,7 +28,7 @@ export class ParkingspaceService {
     const parkingspace = await this.parkingspaceRepository.findOne({
       where: { parkingNumber: createParkingSpaceDto.parkingNumber },
     });
-    Logger.log(parkingspace);
+    Logger.log(parkingspace.parkingNumber);
     if (parkingspace) {
       throw new HttpException('Cet Parking existe déjà', 409);
     }
