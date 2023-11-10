@@ -129,7 +129,7 @@ export class AssignementController {
    */
   @Get('my-parkings/:id')
   @ApiOperation({ summary: 'Get assignments for a specific car' })
-  @ApiParam({ name: 'id', type: 'int' })
+  @ApiParam({ name: 'id', type: 'number' })
   async getAssignmentsForCar(
     @Param('id') id: number,
     @Res() res,
