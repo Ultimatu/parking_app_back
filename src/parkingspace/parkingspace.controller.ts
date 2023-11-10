@@ -7,7 +7,6 @@ import {
   Param,
   Body,
   Res,
-  UseGuards,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -21,14 +20,12 @@ import {
   ApiBody,
   ApiResponse,
 } from '@nestjs/swagger';
-import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 
 @ApiTags('Parkingspaces')
 @Controller('admin/parkingspaces')
 export class ParkingspaceController {
   constructor(private readonly parkingspaceService: ParkingspaceService) {}
 
-  @UseGuards(JwtAuthGuard)
   @UsePipes(ValidationPipe)
   @Post()
   @ApiOperation({ summary: 'Create a new parking space' })
