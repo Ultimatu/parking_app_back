@@ -149,7 +149,8 @@ export class AssignementService {
     if (!user) {
       throw new NotFoundException('User not found');
     }
-
+    Logger.log(user);
+    Logger.log(user.assignments);
     return user;
   }
 }
