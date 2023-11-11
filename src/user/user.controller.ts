@@ -50,7 +50,7 @@ export class UserController {
   remove(@Param('id') id: number, @Res() res: Response) {
     try {
       this.userService.remove(id);
-      return res.status(200).json({ message: 'User deleted' });
+      return res.status(204).json({ message: 'User deleted' });
     } catch (err) {
       return res.status(400).json({ message: err.message });
     }
