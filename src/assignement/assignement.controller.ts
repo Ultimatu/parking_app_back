@@ -25,12 +25,12 @@ import {
   ApiBearerAuth,
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
-import { ParkingSpace } from 'src/parkingspace/entities/parkingspace.entity';
+import { User } from 'src/user/entities/user.entity';
 
 @ApiTags('Assignments')
 @Controller('assignments')
-// @ApiBearerAuth()
-// @UseGuards(JwtAuthGuard)
+@ApiBearerAuth()
+@UseGuards(JwtAuthGuard)
 export class AssignementController {
   constructor(private readonly assignementService: AssignementService) {}
 
@@ -137,7 +137,7 @@ export class AssignementController {
   @Get('my-parkings/:id')
   @ApiOperation({ summary: 'Get assignments for a specific car' })
   @ApiParam({ name: 'id', type: 'number' })
-  async getAssignmentsUser(@Param('id') id: number, @Res() res): Promise<void> {
+  async getAssignmentsUser(@Param('id') id: number, @Res() res): Promise<User> {
     try {
       const assignments = await this.assignementService.findUserAssignment(id);
       return res.status(200).json(assignments);
