@@ -98,6 +98,7 @@ export class AssignementService {
       }),
     ]);
 
+    Logger.log('user: ' + user);
     if (!user || !parkingSpace) {
       throw new NotFoundException('User, or ParkingSpace not found');
     }
@@ -110,9 +111,10 @@ export class AssignementService {
 
   async remove(id: number): Promise<Assignment | undefined> {
     const assignment = await this.assignementRepository.findOneBy({
-      id: id,
+      id,
     });
 
+    Logger.log('assignment: ' + assignment);
     if (!assignment) {
       throw new NotFoundException('Assignment not found');
     }
@@ -121,6 +123,7 @@ export class AssignementService {
       id: assignment.parkingSpace.id,
     });
 
+    Logger.log('parkingSpace: ' + parkingSpace);
     if (!parkingSpace) {
       throw new NotFoundException('ParkingSpace not found');
     }
