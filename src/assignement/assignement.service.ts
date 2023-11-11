@@ -110,6 +110,7 @@ export class AssignementService {
   }
 
   async remove(id: number): Promise<Assignment | undefined> {
+    Logger.log('remove assignment');
     const assignment = await this.assignementRepository.findOneBy({
       id,
     });
@@ -142,15 +143,18 @@ export class AssignementService {
   }
 
   async findUserAssignment(id: number) {
+    Logger.log('findUserAssignment');
     const user = await this.userRepository.findOne({
       where: { id },
       relations: ['assignments', 'assignments.parkingSpace'],
     });
+    Logger.log('user: ' + user);
     if (!user) {
+      Logger.log('throwing user not found');
       throw new NotFoundException('User not found');
     }
-    Logger.log(user);
-    Logger.log(user.assignments);
+    Logger.log('user.assignments: ');
+    Logger.log('user.assignments: ' + user.assignments);
     return user;
   }
 }
