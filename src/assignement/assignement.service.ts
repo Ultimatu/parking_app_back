@@ -44,7 +44,7 @@ export class AssignementService {
     const newAssignment = new Assignment();
     newAssignment.user = user;
     newAssignment.parkingSpace = parkingSpace;
-    newAssignment.assDate = createAssignementDto.assDate || new Date();
+    newAssignment.assDate = new Date(Date.now());
     newAssignment.floorNumber = parkingSpace.floor;
 
     // Update parkingSpace information
@@ -99,7 +99,7 @@ export class AssignementService {
     }
     existingAssignment.user = user;
     existingAssignment.parkingSpace = parkingSpace;
-    existingAssignment.assDate = updateAssignmentDto.assDate;
+    existingAssignment.assDate = new Date(Date.now());
 
     return this.assignementRepository.save(existingAssignment);
   }

@@ -24,5 +24,5 @@ export class CreateAssignmentDto {
     example: '2021-01-01',
     description: 'The date of the assignment',
   })
-  assDate: Date;
+  assDate: string;
 }
