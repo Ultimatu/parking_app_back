@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Assignment } from './entities/assignement.entity';
 import { Car } from 'src/cars/entities/car.entity';
@@ -26,6 +26,8 @@ export class AssignementService {
     const parkingSpace = await this.parkingSpaceRepository.findOne({
       where: { id: createAssignementDto.parkingSpaceId },
     });
+
+    Logger.log(parkingSpace);
     if (!parkingSpace || !parkingSpace.isAvailable) {
       throw new NotFoundException('ParkingSpace not available');
     }

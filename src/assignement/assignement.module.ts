@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Logger, Module } from '@nestjs/common';
 import { AssignementService } from './assignement.service';
 import { AssignementController } from './assignement.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -10,6 +10,6 @@ import { ParkingSpace } from 'src/parkingspace/entities/parkingspace.entity';
 @Module({
   imports: [TypeOrmModule.forFeature([Assignment, Car, User, ParkingSpace])],
   controllers: [AssignementController],
-  providers: [AssignementService],
+  providers: [AssignementService, Logger],
 })
 export class AssignementModule {}
