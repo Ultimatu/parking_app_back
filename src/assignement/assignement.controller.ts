@@ -145,7 +145,7 @@ export class AssignementController {
       const assignments = await this.assignementService.findUserAssignment(id);
       Logger.log('assignments: ' + assignments);
       Logger.log('assignments: ' + JSON.stringify(assignments.assignments));
-      return res.status(200).json(assignments);
+      return assignments.assignments;
     } catch (err) {
       Logger.log('error: ' + err);
       return res.status(400).json({ message: err.message });
