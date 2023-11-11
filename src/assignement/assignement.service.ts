@@ -150,6 +150,6 @@ export class AssignementService {
       throw new NotFoundException('User not found');
     }
 
-    return user.assignments;
+    return user;
   }
 }
