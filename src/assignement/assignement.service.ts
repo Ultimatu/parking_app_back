@@ -65,7 +65,9 @@ export class AssignementService {
   }
 
   async findAll(): Promise<Assignment[]> {
-    return this.assignementRepository.find();
+    return this.assignementRepository.find({
+      relations: ['user', 'parkingSpace'],
+    });
   }
 
   async findOne(id: number): Promise<Assignment | undefined> {
