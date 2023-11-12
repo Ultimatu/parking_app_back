@@ -22,14 +22,13 @@ import {
   ApiParam,
   ApiBody,
   ApiResponse,
-  ApiBearerAuth,
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt.guard';
 
 @ApiTags('Assignments')
 @Controller('assignments')
-@ApiBearerAuth()
-@UseGuards(JwtAuthGuard)
+// @ApiBearerAuth()
+// @UseGuards(JwtAuthGuard)
 export class AssignementController {
   constructor(private readonly assignementService: AssignementService) {}
 
