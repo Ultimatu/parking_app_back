@@ -1,9 +1,9 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Assignment } from './entities/assignement.entity';
-import { Car } from 'src/cars/entities/car.entity';
-import { ParkingSpace } from 'src/parkingspace/entities/parkingspace.entity';
-import { User } from 'src/user/entities/user.entity';
+import { Car } from '../cars/entities/car.entity';
+import { ParkingSpace } from '../parkingspace/entities/parkingspace.entity';
+import { User } from '../user/entities/user.entity';
 import { FindOneOptions, Repository } from 'typeorm';
 import { CreateAssignmentDto } from './dto/create-assignement.dto';
 import { UpdateAssignementDto } from './dto/update-assignement.dto';

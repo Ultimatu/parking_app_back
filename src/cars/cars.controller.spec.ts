@@ -6,6 +6,8 @@ import { UpdateCarDto } from './dto/update-car.dto';
 import { Car } from './entities/car.entity';
 import { User } from '../user/entities/user.entity';
 import { Response } from 'express';
+import { getRepositoryToken } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 describe('CarsController', () => {
   let controller: CarsController;
@@ -14,7 +16,17 @@ describe('CarsController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [CarsController],
-      providers: [CarsService],
+      providers: [
+        CarsService,
+        {
+          provide: getRepositoryToken(Car),
+          useClass: Repository,
+        },
+        {
+          provide: getRepositoryToken(User),
+          useClass: Repository,
+        },
+      ],
     }).compile();
 
     controller = module.get<CarsController>(CarsController);

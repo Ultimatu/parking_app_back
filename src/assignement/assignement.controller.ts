@@ -24,8 +24,7 @@ import {
   ApiResponse,
   ApiBearerAuth,
 } from '@nestjs/swagger';
-import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
-import { User } from 'src/user/entities/user.entity';
+import { JwtAuthGuard } from '../auth/guards/jwt.guard';
 
 @ApiTags('Assignments')
 @Controller('assignments')

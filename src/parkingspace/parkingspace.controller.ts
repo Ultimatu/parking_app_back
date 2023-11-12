@@ -8,7 +8,6 @@ import {
   Res,
   UsePipes,
   ValidationPipe,
-  //UseGuards,
   Put,
   Logger,
   UseGuards,
