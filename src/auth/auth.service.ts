@@ -1,13 +1,13 @@
 import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
 import { AuthenticationRequest, IAuthenticate } from './auth.interface';
-import { User } from 'src/user/entities/user.entity';
+import { User } from '../user/entities/user.entity';
 import { Repository, FindOneOptions } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { JwtPayload, sign } from 'jsonwebtoken';
 import * as bcrypt from 'bcrypt';
-import { CreateUserDto } from 'src/user/dto/create-user.dto';
-import { Role } from 'src/user/entities/role.enum';
-import { UserResponseDto } from 'src/user/dto/user-response.dto';
+import { CreateUserDto } from '../user/dto/create-user.dto';
+import { Role } from '../user/entities/role.enum';
+import { UserResponseDto } from '../user/dto/user-response.dto';
 
 @Injectable()
 export class AuthService {

@@ -8,6 +8,7 @@ import { User } from '../user/entities/user.entity';
 import { ParkingSpace } from '../parkingspace/entities/parkingspace.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { Car } from '../cars/entities/car.entity';
 
 describe('AssignementController', () => {
   let controller: AssignementController;
@@ -15,6 +16,7 @@ describe('AssignementController', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
+      controllers: [AssignementController],
       providers: [
         AssignementService,
         {
@@ -27,6 +29,10 @@ describe('AssignementController', () => {
         },
         {
           provide: getRepositoryToken(ParkingSpace),
+          useClass: Repository,
+        },
+        {
+          provide: getRepositoryToken(Car),
           useClass: Repository,
         },
       ],

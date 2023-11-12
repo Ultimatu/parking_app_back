@@ -111,8 +111,9 @@ export class AssignementService {
 
   async remove(id: number): Promise<Assignment | undefined> {
     Logger.log('remove assignment');
-    const assignment = await this.assignementRepository.findOneBy({
-      id,
+    const assignment = await this.assignementRepository.findOne({
+      where: { id },
+      relations: ['parkingSpace'],
     });
 
     Logger.log('assignment: ' + assignment);
@@ -120,8 +121,8 @@ export class AssignementService {
       throw new NotFoundException('Assignment not found');
     }
 
-    const parkingSpace = await this.parkingSpaceRepository.findOneBy({
-      id: assignment.parkingSpace.id,
+    const parkingSpace = await this.parkingSpaceRepository.findOne({
+      where: { id: assignment.parkingSpace.id },
     });
 
     Logger.log('parkingSpace: ' + parkingSpace);
@@ -134,14 +135,16 @@ export class AssignementService {
       parkingSpace.isAvailable = true;
     }
 
+    // Clone the assignment before removing it
+    const removedAssignment = { ...assignment };
+
     await Promise.all([
       this.parkingSpaceRepository.save(parkingSpace),
       this.assignementRepository.remove(assignment),
     ]);
 
-    return assignment;
+    return removedAssignment;
   }
-
   async findUserAssignment(id: number) {
     Logger.log('findUserAssignment');
     const user = await this.userRepository.findOne({
