@@ -1,4 +1,4 @@
-import { Assignment } from 'src/assignement/entities/assignement.entity';
+import { Assignment } from '../../assignement/entities/assignement.entity';
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 
 @Entity('_parking_spaces')

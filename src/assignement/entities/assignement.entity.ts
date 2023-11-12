@@ -1,5 +1,5 @@
-import { ParkingSpace } from 'src/parkingspace/entities/parkingspace.entity';
-import { User } from 'src/user/entities/user.entity';
+import { ParkingSpace } from '../../parkingspace/entities/parkingspace.entity';
+import { User } from '../../user/entities/user.entity';
 import { Entity, PrimaryGeneratedColumn, ManyToOne, Column } from 'typeorm';
 
 @Entity('_assignments')

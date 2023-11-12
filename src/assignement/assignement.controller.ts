@@ -137,7 +137,7 @@ export class AssignementController {
   @Get('my-parkings/:id')
   @ApiOperation({ summary: 'Get assignments for a specific car' })
   @ApiParam({ name: 'id', type: 'number' })
-  async getAssignmentsUser(@Param('id') id: number, @Res() res): Promise<User> {
+  async getAssignmentsUser(@Param('id') id: number, @Res() res) {
     try {
       const assignments = await this.assignementService.findUserAssignment(id);
       return res.status(200).json(assignments);

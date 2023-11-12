@@ -1,6 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
 
+/**
+ * Represents the response DTO for a user.
+ */
 export class UserResponseDto {
   @ApiProperty({
     example: 1,

@@ -1,8 +1,11 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Role } from './role.enum';
-import { Assignment } from 'src/assignement/entities/assignement.entity';
-import { Car } from 'src/cars/entities/car.entity';
+import { Assignment } from '../../assignement/entities/assignement.entity';
+import { Car } from '../../cars/entities/car.entity';
 
+/**
+ * Represents a user entity in the system.
+ */
 @Entity('users')
 export class User {
   @PrimaryGeneratedColumn()
@@ -23,9 +26,9 @@ export class User {
   @Column()
   role: Role;
 
-  @OneToMany(() => Car, (car) => car.owner)
+  @OneToMany(() => Car, car => car.owner)
   cars: Car[];
 
-  @OneToMany(() => Assignment, (assignment) => assignment.user)
+  @OneToMany(() => Assignment, assignment => assignment.user)
   assignments: Assignment[];
 }

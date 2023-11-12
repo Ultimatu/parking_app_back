@@ -155,6 +155,26 @@ export class AssignementService {
     }
     Logger.log('user.assignments: ');
     Logger.log('user.assignments: ' + user.assignments);
-    return user;
+    const responseTab = [];
+    if (!user.assignments) {
+      return responseTab;
+    }
+    user.assignments.forEach(assignment => {
+      responseTab.push({
+        id: assignment.id,
+        assDate: assignment.assDate,
+        floorNumber: assignment.floorNumber,
+        parkingSpace: {
+          id: assignment.parkingSpace.id,
+          parkingNumber: assignment.parkingSpace.parkingNumber,
+          floor: assignment.parkingSpace.floor,
+          isAvailable: assignment.parkingSpace.isAvailable,
+          address: assignment.parkingSpace.address,
+          openTime: assignment.parkingSpace.openTime,
+          closeTime: assignment.parkingSpace.closeTime,
+        },
+      });
+    });
+    return responseTab;
   }
 }
